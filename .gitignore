@@ -142,3 +142,10 @@ examples/
 
 # archive files
 archive/
+
+# Local wake-word testing (test_mic_live.py artifacts)
+.venv-test/
+wake_clips/
+*.jsonl
+.DS_Store
+openwakeword/resources/
