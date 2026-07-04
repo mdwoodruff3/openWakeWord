@@ -32,6 +32,10 @@ RUN pip install --no-cache-dir \
       audiomentations==0.33.0 acoustics==0.2.6 \
       mutagen==1.47.0 pronouncing==0.2.0 \
       espeak-phonemizer webrtcvad \
-      "datasets==2.14.6" "huggingface_hub==0.23.5" "fsspec==2023.10.0"
+      "datasets==2.21.0"
+# datasets 2.21 = new enough for the container's modern pyarrow (2.14.6 used the removed
+# pyarrow.PyExtensionType), still old enough to load the script-based FMA dataset with
+# trust_remote_code. hub/fsspec float to what datasets wants; transformers isn't installed,
+# so the huggingface_hub 'is_offline_mode' skew still can't occur.
 
 COPY sitecustomize.py /usr/local/lib/python3.12/dist-packages/sitecustomize.py

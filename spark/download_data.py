@@ -23,7 +23,7 @@ for fn in ["openwakeword_features_ACAV100M_2000_hrs_16bit.npy", "validation_set_
 # 2) MIT environmental RIRs (271 clips)
 os.makedirs("mit_rirs", exist_ok=True)
 if len(os.listdir("mit_rirs")) < 270:
-    rir = load_dataset("davidscripka/MIT_environmental_impulse_responses", split="train")
+    rir = load_dataset("davidscripka/MIT_environmental_impulse_responses", split="train", trust_remote_code=True)
     rir = rir.cast_column("audio", Audio(sampling_rate=16000))
     for row in tqdm(rir, desc="MIT RIRs"):
         write16k(f"mit_rirs/{Path(row['audio']['path']).name}", row["audio"]["array"])
@@ -43,7 +43,7 @@ if len(os.listdir("audioset_16k")) < 1500:
 # 4) FMA music background (~1 hour, streamed)
 os.makedirs("fma", exist_ok=True)
 if len(os.listdir("fma")) < 100:
-    fma = load_dataset("rudraml/fma", name="small", split="train", streaming=True)
+    fma = load_dataset("rudraml/fma", name="small", split="train", streaming=True, trust_remote_code=True)
     fma = iter(fma.cast_column("audio", Audio(sampling_rate=16000)))
     for i in tqdm(range(120), desc="FMA (1 hr of 30s clips)"):  # 120 * 30s = 1 hour
         row = next(fma)

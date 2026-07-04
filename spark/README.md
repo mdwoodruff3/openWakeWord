@@ -89,6 +89,10 @@ enable in the app: `uv sync --extra wake_word` + `REACHY_WAKE_WORD=on ./start.sh
   `docker stop` the NIMs for the run (voice-server fails fast + recovers) or drop `tts_batch_size` to 50.
 - **R5 (pre-solved)** — no aarch64 `onnxruntime-gpu`, so `--augment_clips` runs with
   `CUDA_VISIBLE_DEVICES=""` (CPU path on the 20 Grace cores; the `ncpu` patch multi-threads it).
+- **R6 — datasets vs pyarrow / HF skew**: `datasets==2.21.0` (new enough for the container's
+  modern pyarrow — 2.14.6 used the removed `pyarrow.PyExtensionType` — old enough to load the
+  script-based FMA dataset via `trust_remote_code=True`). transformers isn't installed, so the
+  older `huggingface_hub is_offline_mode` import chain can't occur regardless of hub version.
 - **R8 — ONNX export**: `onnxscript` is installed; if the dynamo exporter still errors, add
   `dynamo=False` to the `torch.onnx.export(...)` call at the end of `train.py`.
 
